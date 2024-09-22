@@ -6,3 +6,4 @@ Package.resolved
 .env
 .idea
 *.log
+test.sh
