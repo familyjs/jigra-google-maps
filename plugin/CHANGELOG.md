@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 6.0.0 (2024-09-22)
+
+
+
+# 6.0.0-rc.0 (2024-09-22)
+
+**Note:** Version bump only for package @jigra/google-maps
+
+
+
+
+
 # 6.0.0-rc.0 (2024-09-22)
 
 **Note:** Version bump only for package @jigra/google-maps
