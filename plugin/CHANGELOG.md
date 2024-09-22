@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/familyjs/jigra-google-maps/compare/@jigra/google-maps@6.0.0...@jigra/google-maps@6.0.1) (2024-09-22)
+
+
+### Bug Fixes
+
+* include `getMapsBounds()` in `GoogleMapInterface` and README.md file ([280ed5c](https://github.com/familyjs/jigra-google-maps/commit/280ed5cd4afc89cbacd751cac28bbc452aa06cd7))
+
+
+
+
+
 # 6.0.0 (2024-09-22)
 
 
