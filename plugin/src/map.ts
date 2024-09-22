@@ -1,5 +1,5 @@
-import { Jigra } from '@jigra/core';
-import type { PluginListenerHandle } from '@jigra/core';
+import { Jigra } from "@jigra/core";
+import type { PluginListenerHandle } from "@jigra/core";
 
 import type {
   CameraConfig,
@@ -19,15 +19,15 @@ import type {
   CircleClickCallbackData,
   Polyline,
   PolylineCallbackData,
-} from './definitions';
-import { LatLngBounds, MapType } from './definitions';
-import type { CreateMapArgs } from './implementation';
-import { JigraGoogleMaps } from './implementation';
+} from "./definitions";
+import { LatLngBounds, MapType } from "./definitions";
+import type { CreateMapArgs } from "./implementation";
+import { JigraGoogleMaps } from "./implementation";
 
 export interface GoogleMapInterface {
   create(
     options: CreateMapArgs,
-    callback?: MapListenerCallback<MapReadyCallbackData>,
+    callback?: MapListenerCallback<MapReadyCallbackData>
   ): Promise<GoogleMap>;
   enableTouch(): Promise<void>;
   disableTouch(): Promise<void>;
@@ -35,7 +35,7 @@ export interface GoogleMapInterface {
     /**
      * The minimum number of markers that can be clustered together. The default is 4 markers.
      */
-    minClusterSize?: number,
+    minClusterSize?: number
   ): Promise<void>;
   disableClustering(): Promise<void>;
   addMarker(marker: Marker): Promise<string>;
@@ -67,52 +67,52 @@ export interface GoogleMapInterface {
    */
   fitBounds(bounds: LatLngBounds, padding?: number): Promise<void>;
   setOnBoundsChangedListener(
-    callback?: MapListenerCallback<CameraIdleCallbackData>,
+    callback?: MapListenerCallback<CameraIdleCallbackData>
   ): Promise<void>;
   setOnCameraIdleListener(
-    callback?: MapListenerCallback<CameraIdleCallbackData>,
+    callback?: MapListenerCallback<CameraIdleCallbackData>
   ): Promise<void>;
   setOnCameraMoveStartedListener(
-    callback?: MapListenerCallback<CameraMoveStartedCallbackData>,
+    callback?: MapListenerCallback<CameraMoveStartedCallbackData>
   ): Promise<void>;
   setOnClusterClickListener(
-    callback?: MapListenerCallback<ClusterClickCallbackData>,
+    callback?: MapListenerCallback<ClusterClickCallbackData>
   ): Promise<void>;
   setOnClusterInfoWindowClickListener(
-    callback?: MapListenerCallback<ClusterClickCallbackData>,
+    callback?: MapListenerCallback<ClusterClickCallbackData>
   ): Promise<void>;
   setOnInfoWindowClickListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void>;
   setOnMapClickListener(
-    callback?: MapListenerCallback<MapClickCallbackData>,
+    callback?: MapListenerCallback<MapClickCallbackData>
   ): Promise<void>;
   setOnMarkerClickListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void>;
   setOnPolygonClickListener(
-    callback?: MapListenerCallback<PolygonClickCallbackData>,
+    callback?: MapListenerCallback<PolygonClickCallbackData>
   ): Promise<void>;
   setOnCircleClickListener(
-    callback?: MapListenerCallback<CircleClickCallbackData>,
+    callback?: MapListenerCallback<CircleClickCallbackData>
   ): Promise<void>;
   setOnPolylineClickListener(
-    callback?: MapListenerCallback<PolylineCallbackData>,
+    callback?: MapListenerCallback<PolylineCallbackData>
   ): Promise<void>;
   setOnMarkerDragStartListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void>;
   setOnMarkerDragListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void>;
   setOnMarkerDragEndListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void>;
   setOnMyLocationButtonClickListener(
-    callback?: MapListenerCallback<MyLocationButtonClickCallbackData>,
+    callback?: MapListenerCallback<MyLocationButtonClickCallbackData>
   ): Promise<void>;
   setOnMyLocationClickListener(
-    callback?: MapListenerCallback<MapClickCallbackData>,
+    callback?: MapListenerCallback<MapClickCallbackData>
   ): Promise<void>;
 }
 
@@ -122,21 +122,21 @@ class MapCustomElement extends HTMLElement {
   }
 
   connectedCallback() {
-    this.innerHTML = '';
+    this.innerHTML = "";
 
-    if (Jigra.getPlatform() == 'ios') {
-      this.style.overflow = 'scroll';
-      (this.style as any)['-webkit-overflow-scrolling'] = 'touch';
+    if (Jigra.getPlatform() == "ios") {
+      this.style.overflow = "scroll";
+      (this.style as any)["-webkit-overflow-scrolling"] = "touch";
 
-      const overflowDiv = document.createElement('div');
-      overflowDiv.style.height = '200%';
+      const overflowDiv = document.createElement("div");
+      overflowDiv.style.height = "200%";
 
       this.appendChild(overflowDiv);
     }
   }
 }
 
-customElements.define('jigra-google-map', MapCustomElement);
+customElements.define("jigra-google-map", MapCustomElement);
 
 export class GoogleMap {
   private id: string;
@@ -172,12 +172,12 @@ export class GoogleMap {
    */
   public static async create(
     options: CreateMapArgs,
-    callback?: MapListenerCallback<MapReadyCallbackData>,
+    callback?: MapListenerCallback<MapReadyCallbackData>
   ): Promise<GoogleMap> {
     const newMap = new GoogleMap(options.id);
 
     if (!options.element) {
-      throw new Error('container element is required');
+      throw new Error("container element is required");
     }
 
     if (options.config.androidLiteMode === undefined) {
@@ -194,7 +194,7 @@ export class GoogleMap {
     options.config.y = elementBounds.y;
     options.config.devicePixelRatio = window.devicePixelRatio;
 
-    if (Jigra.getPlatform() == 'android') {
+    if (Jigra.getPlatform() == "android") {
       newMap.initScrolling();
     }
 
@@ -226,14 +226,14 @@ export class GoogleMap {
         });
       };
 
-      const familyPage = newMap.element.closest('.fml-page');
-      if (Jigra.getPlatform() === 'ios' && familyPage) {
-        familyPage.addEventListener('fmlViewWillEnter', () => {
+      const familyPage = newMap.element.closest(".fml-page");
+      if (Jigra.getPlatform() === "ios" && familyPage) {
+        familyPage.addEventListener("fmlViewWillEnter", () => {
           setTimeout(() => {
             onDisplay();
           }, 100);
         });
-        familyPage.addEventListener('fmlViewDidEnter', () => {
+        familyPage.addEventListener("fmlViewDidEnter", () => {
           setTimeout(() => {
             onDisplay();
           }, 100);
@@ -252,7 +252,7 @@ export class GoogleMap {
           const isHidden = mapRect.width === 0 && mapRect.height === 0;
           if (!isHidden) {
             if (lastState.isHidden) {
-              if (Jigra.getPlatform() === 'ios' && !familyPage) {
+              if (Jigra.getPlatform() === "ios" && !familyPage) {
                 onDisplay();
               }
             } else if (
@@ -285,13 +285,13 @@ export class GoogleMap {
 
     if (callback) {
       const onMapReadyListener = await JigraGoogleMaps.addListener(
-        'onMapReady',
+        "onMapReady",
         (data: MapReadyCallbackData) => {
           if (data.mapId == newMap.id) {
             callback(data);
             onMapReadyListener.remove();
           }
-        },
+        }
       );
     }
 
@@ -299,9 +299,9 @@ export class GoogleMap {
   }
 
   private static async getElementBounds(
-    element: HTMLElement,
+    element: HTMLElement
   ): Promise<DOMRect> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let elementBounds = element.getBoundingClientRect();
       if (elementBounds.width == 0) {
         let retries = 0;
@@ -311,7 +311,7 @@ export class GoogleMap {
             retries++;
           } else {
             if (retries == 30) {
-              console.warn('Map size could not be determined');
+              console.warn("Map size could not be determined");
             }
             clearInterval(boundsInterval);
             resolve(elementBounds);
@@ -479,7 +479,7 @@ export class GoogleMap {
    * Destroy the current instance of the map
    */
   async destroy(): Promise<void> {
-    if (Jigra.getPlatform() == 'android') {
+    if (Jigra.getPlatform() == "android") {
       this.disableScrolling();
     }
 
@@ -601,7 +601,7 @@ export class GoogleMap {
     return new LatLngBounds(
       await JigraGoogleMaps.getMapBounds({
         id: this.id,
-      }),
+      })
     );
   }
 
@@ -614,37 +614,37 @@ export class GoogleMap {
   }
 
   initScrolling(): void {
-    const ionContents = document.getElementsByTagName('fml-content');
+    const ionContents = document.getElementsByTagName("fml-content");
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < ionContents.length; i++) {
       (ionContents[i] as any).scrollEvents = true;
     }
 
-    window.addEventListener('fmlScroll', this.handleScrollEvent);
-    window.addEventListener('scroll', this.handleScrollEvent);
-    window.addEventListener('resize', this.handleScrollEvent);
+    window.addEventListener("fmlScroll", this.handleScrollEvent);
+    window.addEventListener("scroll", this.handleScrollEvent);
+    window.addEventListener("resize", this.handleScrollEvent);
     if (screen.orientation) {
-      screen.orientation.addEventListener('change', () => {
+      screen.orientation.addEventListener("change", () => {
         setTimeout(this.updateMapBounds, 500);
       });
     } else {
-      window.addEventListener('orientationchange', () => {
+      window.addEventListener("orientationchange", () => {
         setTimeout(this.updateMapBounds, 500);
       });
     }
   }
 
   disableScrolling(): void {
-    window.removeEventListener('fmlScroll', this.handleScrollEvent);
-    window.removeEventListener('scroll', this.handleScrollEvent);
-    window.removeEventListener('resize', this.handleScrollEvent);
+    window.removeEventListener("fmlScroll", this.handleScrollEvent);
+    window.removeEventListener("scroll", this.handleScrollEvent);
+    window.removeEventListener("resize", this.handleScrollEvent);
     if (screen.orientation) {
-      screen.orientation.removeEventListener('change', () => {
+      screen.orientation.removeEventListener("change", () => {
         setTimeout(this.updateMapBounds, 1000);
       });
     } else {
-      window.removeEventListener('orientationchange', () => {
+      window.removeEventListener("orientationchange", () => {
         setTimeout(this.updateMapBounds, 1000);
       });
     }
@@ -694,7 +694,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnCameraIdleListener(
-    callback?: MapListenerCallback<CameraIdleCallbackData>,
+    callback?: MapListenerCallback<CameraIdleCallbackData>
   ): Promise<void> {
     if (this.onCameraIdleListener) {
       this.onCameraIdleListener.remove();
@@ -702,8 +702,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onCameraIdleListener = await JigraGoogleMaps.addListener(
-        'onCameraIdle',
-        this.generateCallback(callback),
+        "onCameraIdle",
+        this.generateCallback(callback)
       );
     } else {
       this.onCameraIdleListener = undefined;
@@ -717,7 +717,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnBoundsChangedListener(
-    callback?: MapListenerCallback<CameraIdleCallbackData>,
+    callback?: MapListenerCallback<CameraIdleCallbackData>
   ): Promise<void> {
     if (this.onBoundsChangedListener) {
       this.onBoundsChangedListener.remove();
@@ -725,8 +725,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onBoundsChangedListener = await JigraGoogleMaps.addListener(
-        'onBoundsChanged',
-        this.generateCallback(callback),
+        "onBoundsChanged",
+        this.generateCallback(callback)
       );
     } else {
       this.onBoundsChangedListener = undefined;
@@ -740,7 +740,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnCameraMoveStartedListener(
-    callback?: MapListenerCallback<CameraMoveStartedCallbackData>,
+    callback?: MapListenerCallback<CameraMoveStartedCallbackData>
   ): Promise<void> {
     if (this.onCameraMoveStartedListener) {
       this.onCameraMoveStartedListener.remove();
@@ -748,8 +748,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onCameraMoveStartedListener = await JigraGoogleMaps.addListener(
-        'onCameraMoveStarted',
-        this.generateCallback(callback),
+        "onCameraMoveStarted",
+        this.generateCallback(callback)
       );
     } else {
       this.onCameraMoveStartedListener = undefined;
@@ -763,7 +763,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnClusterClickListener(
-    callback?: MapListenerCallback<ClusterClickCallbackData>,
+    callback?: MapListenerCallback<ClusterClickCallbackData>
   ): Promise<void> {
     if (this.onClusterClickListener) {
       this.onClusterClickListener.remove();
@@ -771,8 +771,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onClusterClickListener = await JigraGoogleMaps.addListener(
-        'onClusterClick',
-        this.generateCallback(callback),
+        "onClusterClick",
+        this.generateCallback(callback)
       );
     } else {
       this.onClusterClickListener = undefined;
@@ -786,18 +786,17 @@ export class GoogleMap {
    * @returns
    */
   async setOnClusterInfoWindowClickListener(
-    callback?: MapListenerCallback<ClusterClickCallbackData>,
+    callback?: MapListenerCallback<ClusterClickCallbackData>
   ): Promise<void> {
     if (this.onClusterInfoWindowClickListener) {
       this.onClusterInfoWindowClickListener.remove();
     }
 
     if (callback) {
-      this.onClusterInfoWindowClickListener =
-        await JigraGoogleMaps.addListener(
-          'onClusterInfoWindowClick',
-          this.generateCallback(callback),
-        );
+      this.onClusterInfoWindowClickListener = await JigraGoogleMaps.addListener(
+        "onClusterInfoWindowClick",
+        this.generateCallback(callback)
+      );
     } else {
       this.onClusterInfoWindowClickListener = undefined;
     }
@@ -810,7 +809,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnInfoWindowClickListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void> {
     if (this.onInfoWindowClickListener) {
       this.onInfoWindowClickListener.remove();
@@ -818,8 +817,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onInfoWindowClickListener = await JigraGoogleMaps.addListener(
-        'onInfoWindowClick',
-        this.generateCallback(callback),
+        "onInfoWindowClick",
+        this.generateCallback(callback)
       );
     } else {
       this.onInfoWindowClickListener = undefined;
@@ -833,7 +832,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnMapClickListener(
-    callback?: MapListenerCallback<MapClickCallbackData>,
+    callback?: MapListenerCallback<MapClickCallbackData>
   ): Promise<void> {
     if (this.onMapClickListener) {
       this.onMapClickListener.remove();
@@ -841,8 +840,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onMapClickListener = await JigraGoogleMaps.addListener(
-        'onMapClick',
-        this.generateCallback(callback),
+        "onMapClick",
+        this.generateCallback(callback)
       );
     } else {
       this.onMapClickListener = undefined;
@@ -856,7 +855,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnPolygonClickListener(
-    callback?: MapListenerCallback<PolygonClickCallbackData>,
+    callback?: MapListenerCallback<PolygonClickCallbackData>
   ): Promise<void> {
     if (this.onPolygonClickListener) {
       this.onPolygonClickListener.remove();
@@ -864,8 +863,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onPolygonClickListener = await JigraGoogleMaps.addListener(
-        'onPolygonClick',
-        this.generateCallback(callback),
+        "onPolygonClick",
+        this.generateCallback(callback)
       );
     } else {
       this.onPolygonClickListener = undefined;
@@ -879,14 +878,14 @@ export class GoogleMap {
    * @returns
    */
   async setOnCircleClickListener(
-    callback?: MapListenerCallback<CircleClickCallbackData>,
+    callback?: MapListenerCallback<CircleClickCallbackData>
   ): Promise<void> {
     if (this.onCircleClickListener) [this.onCircleClickListener.remove()];
 
     if (callback) {
       this.onCircleClickListener = await JigraGoogleMaps.addListener(
-        'onCircleClick',
-        this.generateCallback(callback),
+        "onCircleClick",
+        this.generateCallback(callback)
       );
     } else {
       this.onCircleClickListener = undefined;
@@ -900,7 +899,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnMarkerClickListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void> {
     if (this.onMarkerClickListener) {
       this.onMarkerClickListener.remove();
@@ -908,8 +907,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onMarkerClickListener = await JigraGoogleMaps.addListener(
-        'onMarkerClick',
-        this.generateCallback(callback),
+        "onMarkerClick",
+        this.generateCallback(callback)
       );
     } else {
       this.onMarkerClickListener = undefined;
@@ -922,7 +921,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnPolylineClickListener(
-    callback?: MapListenerCallback<PolylineCallbackData>,
+    callback?: MapListenerCallback<PolylineCallbackData>
   ): Promise<void> {
     if (this.onPolylineClickListener) {
       this.onPolylineClickListener.remove();
@@ -930,8 +929,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onPolylineClickListener = await JigraGoogleMaps.addListener(
-        'onPolylineClick',
-        this.generateCallback(callback),
+        "onPolylineClick",
+        this.generateCallback(callback)
       );
     } else {
       this.onPolylineClickListener = undefined;
@@ -945,7 +944,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnMarkerDragStartListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void> {
     if (this.onMarkerDragStartListener) {
       this.onMarkerDragStartListener.remove();
@@ -953,8 +952,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onMarkerDragStartListener = await JigraGoogleMaps.addListener(
-        'onMarkerDragStart',
-        this.generateCallback(callback),
+        "onMarkerDragStart",
+        this.generateCallback(callback)
       );
     } else {
       this.onMarkerDragStartListener = undefined;
@@ -968,7 +967,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnMarkerDragListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void> {
     if (this.onMarkerDragListener) {
       this.onMarkerDragListener.remove();
@@ -976,8 +975,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onMarkerDragListener = await JigraGoogleMaps.addListener(
-        'onMarkerDrag',
-        this.generateCallback(callback),
+        "onMarkerDrag",
+        this.generateCallback(callback)
       );
     } else {
       this.onMarkerDragListener = undefined;
@@ -991,7 +990,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnMarkerDragEndListener(
-    callback?: MapListenerCallback<MarkerClickCallbackData>,
+    callback?: MapListenerCallback<MarkerClickCallbackData>
   ): Promise<void> {
     if (this.onMarkerDragEndListener) {
       this.onMarkerDragEndListener.remove();
@@ -999,8 +998,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onMarkerDragEndListener = await JigraGoogleMaps.addListener(
-        'onMarkerDragEnd',
-        this.generateCallback(callback),
+        "onMarkerDragEnd",
+        this.generateCallback(callback)
       );
     } else {
       this.onMarkerDragEndListener = undefined;
@@ -1014,18 +1013,17 @@ export class GoogleMap {
    * @returns
    */
   async setOnMyLocationButtonClickListener(
-    callback?: MapListenerCallback<MyLocationButtonClickCallbackData>,
+    callback?: MapListenerCallback<MyLocationButtonClickCallbackData>
   ): Promise<void> {
     if (this.onMyLocationButtonClickListener) {
       this.onMyLocationButtonClickListener.remove();
     }
 
     if (callback) {
-      this.onMyLocationButtonClickListener =
-        await JigraGoogleMaps.addListener(
-          'onMyLocationButtonClick',
-          this.generateCallback(callback),
-        );
+      this.onMyLocationButtonClickListener = await JigraGoogleMaps.addListener(
+        "onMyLocationButtonClick",
+        this.generateCallback(callback)
+      );
     } else {
       this.onMyLocationButtonClickListener = undefined;
     }
@@ -1038,7 +1036,7 @@ export class GoogleMap {
    * @returns
    */
   async setOnMyLocationClickListener(
-    callback?: MapListenerCallback<MapClickCallbackData>,
+    callback?: MapListenerCallback<MapClickCallbackData>
   ): Promise<void> {
     if (this.onMyLocationClickListener) {
       this.onMyLocationClickListener.remove();
@@ -1046,8 +1044,8 @@ export class GoogleMap {
 
     if (callback) {
       this.onMyLocationClickListener = await JigraGoogleMaps.addListener(
-        'onMyLocationClick',
-        this.generateCallback(callback),
+        "onMyLocationClick",
+        this.generateCallback(callback)
       );
     } else {
       this.onMyLocationClickListener = undefined;
@@ -1141,7 +1139,7 @@ export class GoogleMap {
   }
 
   private generateCallback(
-    callback: MapListenerCallback<any>,
+    callback: MapListenerCallback<any>
   ): MapListenerCallback<any> {
     const mapId = this.id;
     return (data: any) => {

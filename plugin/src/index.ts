@@ -7,8 +7,8 @@ import {
   Circle,
   Polyline,
   StyleSpan,
-} from './definitions';
-import { GoogleMap } from './map';
+} from "./definitions";
+import { GoogleMap } from "./map";
 
 export {
   GoogleMap,
@@ -24,7 +24,7 @@ export {
 declare global {
   export namespace JSX {
     export interface IntrinsicElements {
-      'jigra-google-map': any;
+      "jigra-google-map": any;
     }
   }
 }

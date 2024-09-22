@@ -1,5 +1,5 @@
-import type { Plugin } from '@jigra/core';
-import { registerPlugin } from '@jigra/core';
+import type { Plugin } from "@jigra/core";
+import { registerPlugin } from "@jigra/core";
 
 import type {
   CameraConfig,
@@ -12,7 +12,7 @@ import type {
   Marker,
   Polygon,
   Polyline,
-} from './definitions';
+} from "./definitions";
 
 /**
  * An interface containing the options used when creating a map.
@@ -201,19 +201,19 @@ export interface JigraGoogleMapsPlugin extends Plugin {
   getMapBounds(args: { id: string }): Promise<LatLngBounds>;
   fitBounds(args: FitBoundsArgs): Promise<void>;
   mapBoundsContains(
-    args: MapBoundsContainsArgs,
+    args: MapBoundsContainsArgs
   ): Promise<{ contains: boolean }>;
   mapBoundsExtend(args: MapBoundsExtendArgs): Promise<{ bounds: LatLngBounds }>;
 }
 
 const JigraGoogleMaps = registerPlugin<JigraGoogleMapsPlugin>(
-  'JigraGoogleMaps',
+  "JigraGoogleMaps",
   {
-    web: () => import('./web').then(m => new m.JigraGoogleMapsWeb()),
-  },
+    web: () => import("./web").then((m) => new m.JigraGoogleMapsWeb()),
+  }
 );
 
-JigraGoogleMaps.addListener('isMapInFocus', data => {
+JigraGoogleMaps.addListener("isMapInFocus", (data) => {
   const x = data.x;
   const y = data.y;
 
